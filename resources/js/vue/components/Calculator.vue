@@ -1,24 +1,24 @@
 <template>
     <div class="calculator">
         <div class="screen">{{ current }}</div>
-        <div>C</div>
+        <div @click="clear" >C</div>
         <div>+/-</div>
         <div>%</div>
         <div class="operator">÷</div>
-        <div>7</div>
-        <div>8</div>
-        <div>9</div>
+        <div @click="append($event.target.textContent)">7</div>
+        <div @click="append($event.target.textContent)">8</div>
+        <div @click="append($event.target.textContent)">9</div>
         <div class="operator">x</div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
+        <div @click="append($event.target.textContent)">4</div>
+        <div @click="append($event.target.textContent)">5</div>
+        <div @click="append($event.target.textContent)">6</div>
         <div class="operator">-</div>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
+        <div @click="append($event.target.textContent)">1</div>
+        <div @click="append($event.target.textContent)">2</div>
+        <div @click="append($event.target.textContent)">3</div>
         <div class="operator">+</div>
-        <div class="zero">0</div>
-        <div>.</div>
+        <div @click="append($event.target.textContent)" class="zero">0</div>
+        <div @click="dot">.</div>
         <div class="operator">=</div>
     </div>
 </template>
@@ -30,6 +30,32 @@ export default {
             current: '0',
         }
     },
+    methods: {
+        clear() {
+            this.current = '0';
+        },
+        append(number) {
+            if (this.operatorClicked) {
+                this.current = '';
+                this.operatorClicked = false;
+            }
+            if (this.current == '0') {
+                if(number == '.'){
+                    this.current = `${this.current}${number}`;
+                }else{
+                    this.current = number;
+                }
+            } else if (this.current != '0') {
+                this.current = `${this.current}${number}`;
+
+            } 
+        },
+        dot() {
+            if (this.current.indexOf('.') === -1) {
+                this.append('.');
+            }
+        },
+    }
 }
 </script>
   
