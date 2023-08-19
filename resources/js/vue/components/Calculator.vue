@@ -1,25 +1,25 @@
 <template>
     <div class="calculator">
         <div class="screen">{{ current }}</div>
-        <div @click="clear" >C</div>
+        <div @click="clear">C</div>
         <div @click="switchSign">+/-</div>
         <div @click="percent">%</div>
-        <div class="operator">÷</div>
+        <div @click="divide" class="operator">÷</div>
         <div @click="append($event.target.textContent)">7</div>
         <div @click="append($event.target.textContent)">8</div>
         <div @click="append($event.target.textContent)">9</div>
-        <div class="operator">x</div>
+        <div @click="times" class="operator">x</div>
         <div @click="append($event.target.textContent)">4</div>
         <div @click="append($event.target.textContent)">5</div>
         <div @click="append($event.target.textContent)">6</div>
-        <div class="operator">-</div>
+        <div @click="minus" class="operator">-</div>
         <div @click="append($event.target.textContent)">1</div>
         <div @click="append($event.target.textContent)">2</div>
         <div @click="append($event.target.textContent)">3</div>
-        <div class="operator">+</div>
+        <div @click="add" class="operator">+</div>
         <div @click="append($event.target.textContent)" class="zero">0</div>
         <div @click="dot">.</div>
-        <div class="operator">=</div>
+        <div @click="equal" class="operator">=</div>
     </div>
 </template>
   
@@ -63,6 +63,33 @@ export default {
         percent() {
             this.current = `${parseFloat(this.current) / 100}`;
         },
+        setPrevious() {
+            this.previous = this.current;
+            this.operatorClicked = true;
+        },
+        divide() {
+            this.operator = (a, b) => a / b;
+            this.setPrevious();
+        },
+        times() {
+            this.operator = (a, b) => a * b;
+            this.setPrevious();
+        },
+        minus() {
+            this.operator = (a, b) => a - b;
+            this.setPrevious();
+        },
+        add() {
+            this.operator = (a, b) => a + b;
+            this.setPrevious();
+        },
+        equal() {
+            this.current = `${Number(this.operator(
+                parseFloat(this.previous),
+                parseFloat(this.current)
+            ).toFixed(10))}`;
+            this.previous = null;
+        }
     }
 }
 </script>
