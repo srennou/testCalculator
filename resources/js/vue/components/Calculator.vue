@@ -2,8 +2,8 @@
     <div class="calculator">
         <div class="screen">{{ current }}</div>
         <div @click="clear" >C</div>
-        <div>+/-</div>
-        <div>%</div>
+        <div @click="switchSign">+/-</div>
+        <div @click="percent">%</div>
         <div class="operator">÷</div>
         <div @click="append($event.target.textContent)">7</div>
         <div @click="append($event.target.textContent)">8</div>
@@ -54,6 +54,14 @@ export default {
             if (this.current.indexOf('.') === -1) {
                 this.append('.');
             }
+        },
+        switchSign() {
+            if (this.current != '0') {
+                this.current = this.current.charAt(0) === '-' ? this.current.slice(1) : `-${this.current}`;
+            }
+        },
+        percent() {
+            this.current = `${parseFloat(this.current) / 100}`;
         },
     }
 }
